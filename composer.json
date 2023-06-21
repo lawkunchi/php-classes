@@ -1,0 +1,19 @@
+{
+    "name": "lawkunchi/assessment",
+    "description": "Assessment",
+    "type": "project",
+    "require": {
+        "phpunit/phpunit": "^10.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lawkunchi\\Assessment\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lawrence",
+            "email": "lawkunchi@yahoo.com"
+        }
+    ]
+}
