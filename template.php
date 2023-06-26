@@ -11,8 +11,9 @@
     ];
     global $data;
 
-    $product = new Category('Mens', [new Product('Blue Shirt'), new Product('Red T-Shirt')]);
+    $product = new Product('Blue Shirt');
     echo($product->getName());
+    echo($product->makeDescription('A nice blue shirt'));
 
 
     /**

@@ -1,38 +1,32 @@
-import {FC, useContext, useEffect, useState} from 'react';
+import {FC, useContext} from 'react';
 import { ProductContext } from "../context/ProductContext";
 import Item from '../components/Item';
-import { ICategory } from '../@types/product';
-import ItemNav from '../components/ItemNav';
+import SearchBar from '../components/SearchBar';
+import { Link } from "react-router-dom";
 
 export const Products: FC = () => {
-    const { products, categories, setProducts, loading, searchQuery, setSearchQuery } = useContext(ProductContext);
-    const [activeTab, setActiveTab] = useState('');
 
-
-    const changeTab = (name: string) => {
-        setActiveTab(name);
-        const result:any = categories.filter((obj) => {
-            return obj.name === name;
-          });
-          setProducts?.(result[0].products);
-    }
-
+    const { products, loading, searchQuery, setSearchQuery } = useContext(ProductContext);
     const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => setSearchQuery?.(event.target.value)
-
-    useEffect(() => {
-        setActiveTab(categories[0]?.name)
-    }, [])
     
     return (
         <div>
+            <nav className="breadcrumb">
+                <ul>
+                    <li><Link to="/product/add">Add Product</Link></li>
+                </ul>
+            </nav>
+            <nav className="panel">
+                <p className="panel-heading">Products</p>
+                
+                <SearchBar searchQuery={searchQuery} handleChange={handleChange}/>
 
-            {loading?
-                <div>Loading</div>:
-                <div>
-                    <ItemNav  categories={categories} changeTab={changeTab} activeTab={activeTab}/>
-                    <Item searchQuery={searchQuery} handleChange={handleChange} products={products}/>
-                </div>
-            }
+                {loading?   
+                <div>Loading products ... </div>: 
+                    <>{products.length > 0 ? <Item  products={products}/>: <div>No products found</div>  }</>
+                }
+
+            </nav>
         </div>
     );
 }

@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CategoryTest extends TestCase {
 
+    // Test prdouct class
     public function testGetProducts(): void
     {
         $category =  new Category('Fruits', [new Product('Apples'), new Product('Oranges')]);
@@ -13,6 +14,7 @@ final class CategoryTest extends TestCase {
         $this->assertIsArray($category->getProducts());
     }
 
+    // Test if product existin a category
     public function testProductExistInACategory(): void
     {
         $category =  new Category('Fruits', [new Product('Apples'), new Product('Oranges')]);

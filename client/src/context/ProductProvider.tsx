@@ -1,14 +1,17 @@
-import React, {FC, useState, useEffect} from 'react';
+import {FC, useState, useEffect} from 'react';
 import {ProductContext, defaultState} from './ProductContext';
 import axios from 'axios';
-import { IProduct, ICategory,Props } from '../@types/product';
+import { IProduct, Props } from '../@types/product';
 
 export const ProductProvider: FC<Props> = ({children}) => {
+    
     const [products, setProducts] = useState<IProduct[]>([]);
-    const [categories, setCategories] = useState<ICategory[]>([]);
     const [loading, setLoading] = useState(defaultState.loading);
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState([]);
+    const [message, setMessage] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
+
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     const config = {
         headers: {
@@ -16,73 +19,88 @@ export const ProductProvider: FC<Props> = ({children}) => {
         }
     }
 
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-    const getCategories = () => {
+    // Get products
+    const getProducts = () => {
         setLoading(true);
         let url:string = API_BASE_URL+'/products.php';
+        if(searchQuery !== '') {
+            url += '?query='+searchQuery;
+        }
        
         axios
-        .get<ICategory[]>(url, config)
-        .then(function ({ data }: { data: ICategory[] }) {
-			setCategories(data);
-            setProducts(data[0].products);
+        .get(url)
+        .then(function ({ data  }) {
+            if(data.length === undefined) {
+                setProducts(Object.values(data));
+            }
+            else {
+                setProducts(data);
+            }
+
             setTimeout(() => {
                 setLoading(false);
             }, 200);
 		})
         .catch(e => {
-          const error = e.response.status === 404? "Resource Not found": "An unexpected error has occurred";
+            console.log(e);
           setLoading(false);
-          setError(error);
           console.log(e);
         });
     }
 
+     // add product
     const addProduct = (name: string, category:string) => {
-
         setLoading(true);
-
+        setErrors([]);
         const payload = {
             name: name,
             category: category
         }
 
         axios
-        .post(API_BASE_URL+'/add-product.php', payload)
-        .then(function ({ data }: { data: IProduct[]}) {
+        .post(API_BASE_URL+'/add-product.php', payload, config)
+        .then(function ({ data }) {
+            if(data.errors) {
+                setErrors(data.errors);
+            }
+
+            if(data.success) {
+                getProducts();
+                setMessage('Prodcut added succefully');
+                setTimeout(() => {
+                    setMessage('');
+                }, 3000);
+            }
             setTimeout(() => {
                 setLoading(false);
-            }, 200);
+            }, 300);
 		})
         .catch(e => {
-          const error = e.response.status === 404? "Resource Not found": "An unexpected error has occurred";
-          setLoading(false);
-          setError(error);
+            setLoading(false);
+            console.log(e);
         });
     }
 
     useEffect(() => {
-        getCategories()
+        getProducts()
     }, [searchQuery])
     
-    
-
     return (
-        <div className='container'>
-            <ProductContext.Provider value={{
-                products,
-                setProducts,
-                categories,
-                getCategories,
-                addProduct,
-                searchQuery,
-                setSearchQuery,
-                loading,
-                error
-            }}>
-            {children}
-            </ProductContext.Provider>
-        </div>
+        <section className="section">
+            <div className='container'>
+                <ProductContext.Provider value={{
+                    products,
+                    getProducts,
+                    addProduct,
+                    searchQuery,
+                    setSearchQuery,
+                    loading,
+                    errors,
+                    message
+                }}>
+                {children}
+                </ProductContext.Provider>
+            </div>
+        </section>
     );
 };

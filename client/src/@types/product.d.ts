@@ -1,13 +1,12 @@
 export interface IProductContext {
     products: IProduct[];
-    categories: ICategory[];
     searchQuery: string,
     loading: boolean,
-    error: string,
-    getCategories?: () => void;
-    setSearchQuery?: (query:string) => void;
-    setProducts?: (query:IProduct[]) => void;
-    addProduct?: (name: string, category:string) => void;
+    message: string,
+    errors: any,
+    getProducts?: () => void,
+    setSearchQuery?: (query:string) => void,
+    addProduct?: (name: string, category:string) => void
 }
   
 export interface IProduct {

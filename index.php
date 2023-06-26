@@ -15,26 +15,25 @@
 <body>
 
 <?php
-     include 'src/Category.php';
-     include 'src/Product.php';
- 
-     use Lawkunchi\Assessment\Category;
-     use Lawkunchi\Assessment\Product;
-    session_start();
+include 'src/Category.php';
+include 'src/Product.php';
+
+use Lawkunchi\Assessment\Category;
+use Lawkunchi\Assessment\Product;
+session_start();
      
-    if(isset($_SESSION['data'])) {
-        $data = $_SESSION['data'];
-    }
+if(isset($_SESSION['data'])) {
+    $data = $_SESSION['data'];
+}
 
-    else {
-        $data = [
-            'Mens' => new Category('Mens', [new Product('Blue Shirt'), new Product('Red T-Shirt')]),
-            'Kids' => new Category('Kids', [new Product('Sneakers'), new Product('Toy car')]),
-        ];
+else {
+    $data = [
+        'Mens' => new Category('Mens', [new Product('Blue Shirt'), new Product('Red T-Shirt')]),
+        'Kids' => new Category('Kids', [new Product('Sneakers'), new Product('Toy car')]),
+    ];
 
-        $_SESSION['data'] = $data;
-    }
-
+    $_SESSION['data'] = $data;
+}
 
 ?>
 

@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ProductTest extends TestCase {
 
+    //Test product class
     public function testClassConstructor(): void
     {
         $product = new Product('Socks');

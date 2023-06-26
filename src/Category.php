@@ -12,29 +12,18 @@ namespace Lawkunchi\Assessment;
     }
 
     /**
-     * Return category name.
-     * @return strng
-     */
-
-    public function getName(): string
-    {
-        $product = new Product('zzzzz');
-        return $product->name;
-    }
-
-     /**
      * Return a product inside a category.
      * @return array
-     */
+    */
 
     public function getProducts():array {
         return $this->products;
     }
 
-     /**
+    /**
      * Does a product exist in a category.
      * @return false
-     */
+    */
     public function doesProductExistInCategory(string $product): bool {
 
         $filtered_product = array_filter($this->products, function ($obj) use ($product) {
@@ -42,7 +31,6 @@ namespace Lawkunchi\Assessment;
         });
 
         return !empty($filtered_product)? true:false;
-       
     }
     
 }
