@@ -11,6 +11,10 @@
     ];
     global $data;
 
+    $product = new Category('Mens', [new Product('Blue Shirt'), new Product('Red T-Shirt')]);
+    echo($product->getName());
+
+
     /**
      * Return a product inside a category.
      *

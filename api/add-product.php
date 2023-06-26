@@ -1,7 +1,7 @@
 <?php
 
-include 'src/Category.php';
-include 'src/Product.php';
+include '../src/Category.php';
+include '../src/Product.php';
 
 use Lawkunchi\Assessment\Category;
 use Lawkunchi\Assessment\Product;

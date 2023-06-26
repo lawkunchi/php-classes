@@ -2,12 +2,24 @@
 namespace Lawkunchi\Assessment;
 
  class Category {
+    
     public string $name;
     public array $products;
     
     public function __construct(string $name, array $products) {
         $this->name     = $name;
         $this->products = $products;
+    }
+
+    /**
+     * Return category name.
+     * @return strng
+     */
+
+    public function getName(): string
+    {
+        $product = new Product('zzzzz');
+        return $product->name;
     }
 
      /**
